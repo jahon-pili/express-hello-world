@@ -3,8 +3,8 @@ const cors = require('cors');
 const fetch = require('node-fetch');
 
 const app = express();
-app.use(cors());
-app.use(express.json());
+app.use(cors({ origin: '*' }));
+app.use(express.json({ limit: '10mb' }));
 
 app.post('/api/generate', async (req, res) => {
   try {
@@ -23,6 +23,8 @@ app.post('/api/generate', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+app.options('/api/generate', cors({ origin: '*' }));
 
 app.get('/', (req, res) => {
   res.send('ResumAI Proxy is running.');
